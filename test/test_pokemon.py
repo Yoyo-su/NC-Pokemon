@@ -61,3 +61,84 @@ class TestGetMultiplier:
         Eevee = Normal('Eevee', 55, 18, 'Headbutt')
         Vaporeon = Water('Vaporeon', 70, 19, 'Hydro pump')
         assert Eevee.get_multiplier(Vaporeon) == 1
+
+class TestPokeball:
+    @pytest.mark.it('should return None when checking self.pokemon property')
+    def test_pokemon_property(self):
+        test_pokeball = Pokeball()
+        assert test_pokeball.pokemon == None
+
+    @pytest.mark.it('should return pokemon when using the catch method')
+    def test_catch_method(self):
+        Eevee = Normal('Eevee', 55, 18, 'Headbutt')
+        test_pokeball = Pokeball()
+        test_pokeball.catch(Eevee)
+        assert test_pokeball.pokemon == Eevee
+
+    @pytest.mark.it('should return True when using is_empty and pokeball has no pokemon')
+    def test_is_empty(self):
+        test_pokeball = Pokeball()
+        assert test_pokeball.is_empty() == True
+
+    @pytest.mark.it('should return False when using is_empty and pokeball has a pokemon')
+    def test_is_empty_false(self):
+        Eevee = Normal('Eevee', 55, 18, 'Headbutt')
+        test_pokeball = Pokeball()
+        test_pokeball.catch(Eevee)
+        assert test_pokeball.is_empty() == False
+
+
+class TestTrainer:
+    @pytest.mark.it('should return 6 pokeballs in the belt')
+    def test_belt(self):
+        test_trainer = Trainer()
+        assert test_trainer.belt == [test_trainer.ball1, test_trainer.ball2, test_trainer.ball3, test_trainer.ball4, test_trainer.ball5, test_trainer.ball6]
+
+
+    @pytest.mark.it('should return the pokemon added to Pokeball one')
+    def test_catch(self):
+        test_trainer = Trainer()
+        Flareon = Fire('Flareon', 65, 20, 'Fire blast')
+        test_trainer.throw_pokeball(Flareon)
+        assert test_trainer.ball1.pokemon == Flareon
+
+    @pytest.mark.it('should return the pokemon added to Pokeball one')
+    def test_catch_2(self):
+        test_trainer = Trainer()
+        Flareon = Fire('Flareon', 65, 20, 'Fire blast')
+        Eevee = Normal('Eevee', 55, 18, 'Headbutt')
+        test_trainer.throw_pokeball(Flareon)
+        test_trainer.throw_pokeball(Eevee)
+        assert test_trainer.ball2.pokemon == Eevee
+
+    @pytest.mark.it('should return only 6 pokeballs when given more')
+    def test_catch_6_or_more(self):
+        test_trainer = Trainer()
+        Flareon = Fire('Flareon', 65, 20, 'Fire blast')
+        Eevee = Normal('Eevee', 55, 18, 'Headbutt')
+        Vaporeon = Water('Vaporeon', 70, 19, 'Hydro pump')
+        Leafeon = Grass('Leafeon', 65, 17, 'Giga drain')
+        Charmander = Fire('Charmander', 44, 17, 'Flamethrower')
+        Squirtle = Water('Squirtle', 44, 16, 'Surf')
+        Bulbasaur = Grass('Bulbasaur', 45, 16,'Razor leaf')
+        test_trainer.throw_pokeball(Flareon)
+        test_trainer.throw_pokeball(Eevee)
+        test_trainer.throw_pokeball(Vaporeon)
+        test_trainer.throw_pokeball(Leafeon)
+        test_trainer.throw_pokeball(Charmander)
+        test_trainer.throw_pokeball(Squirtle)
+        test_trainer.throw_pokeball(Bulbasaur)
+        assert test_trainer.ball6.pokemon == Squirtle
+        assert len(test_trainer.belt) == 6
+
+        
+    
+
+
+
+
+
+        
+
+    
+    

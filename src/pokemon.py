@@ -55,6 +55,40 @@ class Normal(Pokemon):
         self.weak_against = None
     pass
 
+class Pokeball:
+    def __init__(self):
+        self.pokemon = None
 
+    def catch(self, Pokemon):
+        if self.pokemon == None:
+            self.pokemon = Pokemon
+
+    def is_empty(self):
+        if self.pokemon == None:
+            return True
+        return False
+
+class Trainer:
+    def __init__(self):
+        self.ball1 = Pokeball()
+        self.ball2 = Pokeball()
+        self.ball3 = Pokeball()
+        self.ball4 = Pokeball()
+        self.ball5 = Pokeball()
+        self.ball6 = Pokeball()
+        self.belt = [self.ball1, self.ball2, self.ball3, self.ball4, self.ball5, self.ball6]
+
+    def throw_pokeball(self, pokemon):
+        for pokeball in self.belt:
+            if pokeball.is_empty():
+                pokeball.catch(pokemon)
+                break
+
+
+    
+# test_trainer = Trainer()
+# Flareon = Fire('Flareon', 65, 20, 'Fire blast')
+# test_trainer.throw_pokeball(Flareon)
+# print(Flareon)
 
 #test = Fire()
