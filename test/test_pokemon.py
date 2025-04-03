@@ -131,7 +131,73 @@ class TestTrainer:
         assert test_trainer.ball6.pokemon == Squirtle
         assert len(test_trainer.belt) == 6
 
-        
+class TestBattle:
+    @pytest.mark.it('should return pokemon 2 with less hitpoints according to Pokemon methods')
+    def test_battle(self):
+        Flareon = Fire('Flareon', 65, 20, 'Fire blast')
+        Vaporeon = Water('Vaporeon', 70, 19, 'Hydro pump')
+        test_battle = Battle(Flareon, Vaporeon)
+        test_battle.take_turn()
+        assert Vaporeon.hit_points == 60
+
+    @pytest.mark.it('should return true when pokemon faints after a long battle')
+    def test_battle_turn_2(self):
+        Flareon = Fire('Flareon', 65, 20, 'Fire blast')
+        Vaporeon = Water('Vaporeon', 70, 19, 'Hydro pump')
+        test_battle = Battle(Flareon, Vaporeon)
+        test_battle.take_turn()
+        assert Vaporeon.hit_points == 60
+        test_battle.take_turn()
+        assert Flareon.hit_points == 65 - (19 * 1.5)
+        test_battle.take_turn()
+        assert Vaporeon.hit_points == 50
+        test_battle.take_turn()
+        assert Flareon.hit_points == 65 - (2 * (19 * 1.5))
+        test_battle.take_turn()
+        assert Vaporeon.hit_points == 40
+        test_battle.take_turn()
+        assert Flareon.hit_points == 65 - (3 * (19 * 1.5))
+        test_battle.take_turn()
+        assert Flareon.has_fainted() == True
+
+    @pytest.mark.it('should return the winning pokemon after a long battle')
+    def test_battle_winner(self):
+        Flareon = Fire('Flareon', 65, 20, 'Fire blast')
+        Vaporeon = Water('Vaporeon', 70, 19, 'Hydro pump')
+        test_battle = Battle(Flareon, Vaporeon)
+        test_battle.take_turn()
+        assert Vaporeon.hit_points == 60
+        test_battle.take_turn()
+        assert Flareon.hit_points == 65 - (19 * 1.5)
+        test_battle.take_turn()
+        assert Vaporeon.hit_points == 50
+        test_battle.take_turn()
+        assert Flareon.hit_points == 65 - (2 * (19 * 1.5))
+        test_battle.take_turn()
+        assert Vaporeon.hit_points == 40
+        test_battle.take_turn()
+        assert Flareon.hit_points == 65 - (3 * (19 * 1.5))
+        test_battle.take_turn()
+        assert test_battle.get_winner() == test_battle.pokemon2
+
+    @pytest.mark.it('should return None when neither pokemon has fainted during a battle')
+    def test_battle_winner_none(self):
+        Flareon = Fire('Flareon', 65, 20, 'Fire blast')
+        Vaporeon = Water('Vaporeon', 70, 19, 'Hydro pump')
+        test_battle = Battle(Flareon, Vaporeon)
+        test_battle.take_turn()
+        assert Vaporeon.hit_points == 60
+        test_battle.take_turn()
+        assert Flareon.hit_points == 65 - (19 * 1.5)
+        test_battle.take_turn()
+        assert Vaporeon.hit_points == 50
+        assert test_battle.get_winner() == None
+
+
+
+
+
+
     
 
 

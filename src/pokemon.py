@@ -16,6 +16,7 @@ class Pokemon:
         if self.hit_points <= 0:
             return True
         return False
+    
     def get_multiplier(self,other_pokemon):
         if self.strong_against is other_pokemon.type:
             return 1.5
@@ -23,7 +24,7 @@ class Pokemon:
             return 0.5
         return 1
     
-
+    
     
 class Fire(Pokemon):
     def __init__(self, name, hitpoints, attackdamage, move):
@@ -84,8 +85,33 @@ class Trainer:
                 pokeball.catch(pokemon)
                 break
 
+class Battle:
+    def __init__(self, pokemon1, pokemon2):
+        self.pokemon1 = pokemon1
+        self.pokemon2 = pokemon2
+        self.turn = False
 
-    
+    def take_turn(self):
+        if not self.pokemon1.has_fainted() and not self.pokemon2.has_fainted():
+            if self.turn is False:
+                damage = self.pokemon1.attack_damage * self.pokemon1.get_multiplier(self.pokemon2)
+                self.pokemon2.take_damage(damage)
+                self.turn = not self.turn
+
+            else:
+                damage = self.pokemon2.attack_damage * self.pokemon2.get_multiplier(self.pokemon1)
+                self.pokemon1.take_damage(damage)
+                self.turn = not self.turn
+            
+    def get_winner(self):
+        if self.pokemon1.has_fainted():
+                return self.pokemon2
+
+        if self.pokemon2.has_fainted():
+                return self.pokemon1
+
+        return None
+     
 # test_trainer = Trainer()
 # Flareon = Fire('Flareon', 65, 20, 'Fire blast')
 # test_trainer.throw_pokeball(Flareon)
