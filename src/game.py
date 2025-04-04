@@ -76,112 +76,149 @@ while player_input == 1:
             while not_picked or choice >= 15 or choice <= 0:
                 try:
                     choice = int(input(f'Player1 pick Pokemon number {i+1} for your belt:'))
+
+                    # if any(any(choice)):
+                    is_match = False
                     for list in player_selection:
                         for element in list:
                             if choice == element:
                                 print("Please pick another pokemon")
-                                continue
+                                is_match = True
+                    if is_match: 
+                         continue            
                     not_picked = False
                 except (ValueError,TypeError):
                     print("Please enter a number!")
                     continue
                 if choice >= 15 or choice <= 0:
                      print("Please pick a number from 1 - 14!")
-            player_selection[0][i] = choice
+            player_selection[0].append(choice)
             not_picked = True
             while not_picked or not_picked or choice >= 15 or choice <= 0:
                 try:
                     choice = int(input(f'Player2 pick Pokemon number {i+1} for your belt:'))
+                    is_match = False
                     for list in player_selection:
                         for element in list:
                             if choice == element:
                                 print("Please pick another pokemon")
-                                continue
+                                is_match = True
+                    if is_match:
+                         continue
                     not_picked = False
                 except (ValueError,TypeError):
                     print("Please enter a number!")
                     continue
                 if choice >= 15 or choice <= 0:
                      print("Please pick a number from 1 - 14!")
-            player_selection[1][i] = choice
-            
-           
-            
+            player_selection[1].append(choice)
 
-    # for pok
-    #     Player1.throw_pokeball(pokelist[choice])
-    #     Player2.throw_pokeball(pokelist[choice]) 
+    for i in player_selection[0]:
+         Player1.throw_pokeball(pokelist[i - 1])
 
-    pokemon_selected = 0
-    pokemon1 = 0
-    pokemon2 = 0
-    first_go1 = True
-    first_go2 = True
-    while pokemon_selected == 0 or pokemon1 <= 0 or pokemon1 >= 8:
-        try:
-            pokemon1 = int(input("Player 1 please choose your pokemon (type 1 - 14): "))
-            pokemon_selected = 1
-            
-        except (ValueError,TypeError):
-            print("Please enter a number!")
-            continue
+    for i in player_selection[1]:
+        Player2.throw_pokeball(pokelist[i - 1])
 
-        if pokemon2 <= 0 or pokemon2 >= 8:
-             print("Please pick a number from 1 - 14!")
-        
-    print(f"You have selected: {pokelist[pokemon1 - 1].name}")
+    Endgame = False
     
-    while pokemon_selected == 0 or pokemon2 <= 0 or pokemon2 >= 8 or pokemon2 == pokemon1:
-        try:
-            pokemon2 = int(input("Player 2 choose your pokemon (type 1 - 14): "))
-        except (ValueError,TypeError):
+    while Endgame == False:
+        battle_belt1 = {}
+        battle_belt2 = {}
+        for key, poke in enumerate(Player1.belt):
+            battle_belt1[key + 1] = poke.pokemon.name
+
+        print("Player 1: ", battle_belt1)
+
+        for key, poke in enumerate(Player2.belt):
+            battle_belt2[key + 1] = poke.pokemon.name
+
+        print("Player 2: ", battle_belt2)
+
+        pokemon_selected = 0
+        pokemon1 = 0
+        pokemon2 = 0
+        first_go1 = True
+        first_go2 = True
+        while pokemon_selected == 0 or pokemon1 <= 0 or pokemon1 >= 7:
+            try:
+                pokemon1 = int(input("Player 1 please choose your pokemon (type 1 - 6): "))
+                pokemon_selected = 1
+                
+            except (ValueError,TypeError):
                 print("Please enter a number!")
                 continue
 
-        if pokemon2 == pokemon1:
-                print("Please pick another pokemon")
-
-        if pokemon2 <= 0 or pokemon2 >= 8:
-             print("Please pick a number from 1 - 14:")
-
+            if pokemon2 <= 0 or pokemon2 >= 7:
+                print("Please pick a number from 1 - 6!")
             
-    print(f"You have selected: {pokelist[pokemon2 - 1].name}")
+        print(f"You have selected: {Player1.belt[pokemon1 - 1].pokemon.name}")
+        
+        while pokemon_selected == 0 or pokemon2 <= 0 or pokemon2 >= 7:
+            try:
+                pokemon2 = int(input("Player 2 choose your pokemon (type 1 - 6): "))
+            except (ValueError,TypeError):
+                    print("Please enter a number!")
+                    continue
 
-    pokemon1 = pokelist[pokemon1 - 1]
+            if pokemon2 <= 0 or pokemon2 >= 7:
+                print("Please pick a number from 1 - 6:")
 
-    pokemon2 = pokelist[pokemon2 - 1]
+                
+        print(f"You have selected: {Player2.belt[pokemon2 - 1].pokemon.name}")
 
-    time.sleep(2)
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print("The battle will now commence !!!!!!")
-    
+        pokemon1 = Player1.belt[pokemon1 - 1].pokemon
 
-    game_battle = Battle(pokemon1, pokemon2)
+        pokemon2 = Player2.belt[pokemon2 - 1].pokemon
 
-    time.sleep(2)
+        time.sleep(2)
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("The battle will now commence !!!!!!")
+        
+        game_battle = Battle(pokemon1, pokemon2)
 
-    while not pokemon1.has_fainted() and not pokemon2.has_fainted():
-        game_battle.take_turn()
-        print(f"{pokemon1.name} attacks {pokemon2.name} with {pokemon1.move}")
-        print(f"{pokemon2.name} hitpoints = {pokemon2.hit_points}")
         time.sleep(2)
 
-        if not pokemon2.has_fainted():
+        while not pokemon1.has_fainted() and not pokemon2.has_fainted():
             game_battle.take_turn()
-            print(f"{pokemon2.name} attacks {pokemon1.name} with {pokemon2.move}")
-            print(f"{pokemon1.name} hitpoints = {pokemon1.hit_points}")
+            print(f"{pokemon1.name} attacks {pokemon2.name} with {pokemon1.move}")
+            print(f"{pokemon2.name} hitpoints = {pokemon2.hit_points}")
             time.sleep(2)
 
-    if pokemon1.has_fainted():
-        loser = pokemon1
+            if not pokemon2.has_fainted():
+                game_battle.take_turn()
+                print(f"{pokemon2.name} attacks {pokemon1.name} with {pokemon2.move}")
+                print(f"{pokemon1.name} hitpoints = {pokemon1.hit_points}")
+                time.sleep(2)
 
-    if pokemon2.has_fainted():
-        loser = pokemon2
+        if pokemon1.has_fainted():
+            loser = pokemon1
 
-    print(f"Oh no {loser.name} you lose")
-    time.sleep(2)
-    print(f"{game_battle.get_winner().name} wins !!!!!!")
-    time.sleep(2)
+        if pokemon2.has_fainted():
+            loser = pokemon2
+
+        print(f"Oh no {loser.name} you lose")
+        time.sleep(2)
+        print(f"{game_battle.get_winner().name} wins !!!!!!")
+        time.sleep(2)
+        count1 = 0
+        for poke in Player1.belt:
+            if poke.pokemon.has_fainted():
+                count1 += 1
+        
+        count2 = 0
+        for poke in Player2.belt:
+            if poke.pokemon.has_fainted():
+                count2 += 1
+
+        if count1 == 6 or count2 == 6:
+            if count1 < count2:
+                print("Player 1 is the Winner !!!!!!")
+            if count1 > count2:
+                print("Player 2 is the Winner !!!!!!")
+            
+            Endgame = True
+
+            
     try:
         player_input = int(input("Enter 1 to restart or anything else to exit: "))
         time.sleep(2)
