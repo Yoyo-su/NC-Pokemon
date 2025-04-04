@@ -6,11 +6,13 @@ Message: Please select pokemon -> list pokemon -> type to choose one (pick by nu
 You can make all the pokemon the same if you want to but the user has to pick 
 Class: *
 Keep hit points and attack damage secret
+Alternate to pick pokemon for belt:
 Player one pick your pokemon
 Player two pick your pokemon 
+
+Pick pokemon for battle (must not have fainted):
 Start Battle !!!!
 Import Time 
-While Looper.cpu 
 delay a couple secs
 Show battle turn by turn
 f"{pokemon 1} attacks {pokemon 2} with {pokemon 1 move}"
@@ -24,8 +26,11 @@ f"{pokemon 1} is the winner !!!!!"
 
 Loop runs take_turn method until get_winner is truthy 
 Pokemon (pokemon name) is the Winner !!!! 
+
 Time module
-Make it more suspensful and show hit points and attack damage until game over 
+Make it more suspensful and show hit points and attack damage until game over
+
+Game ends if one player has 3 fainted pokemon
 Do you wanna restart or exit 
 Restart
 
@@ -37,7 +42,7 @@ from pokemon import *
 player_input = 1
 
 while player_input == 1:
-
+    
     Flareon = Fire('Flareon', 65, 20, 'Fire blast')
     Eevee = Normal('Eevee', 55, 18, 'Headbutt')
     Vaporeon = Water('Vaporeon', 70, 19, 'Hydro pump')
@@ -45,8 +50,17 @@ while player_input == 1:
     Charmander = Fire('Charmander', 44, 17, 'Flamethrower')
     Squirtle = Water('Squirtle', 44, 16, 'Surf')
     Bulbasaur = Grass('Bulbasaur', 45, 16,'Razor leaf')
-
-    pokelist = [Flareon, Eevee, Vaporeon, Leafeon, Charmander, Squirtle, Bulbasaur]
+    Quilava = Fire('Quilava', 58, 22, 'Eruption')
+    Meowth = Normal('Meowth', 48, 15, 'Growl')
+    Poliwhirl = Water('Poliwhirl', 65, 20, 'Hydro vortex')
+    Meganium = Grass('Meganium', 80, 28, 'G-Max drum solo')
+    Cyndaquil  = Fire('Cyndaquil', 46, 16, 'Flame charge')
+    Blastoise = Water('Blastoise', 79, 30, 'Wave crash')
+    Septile = Grass('Septile', 70, 25,'Apple acid')
+    pokelist = [Flareon,Eevee,Vaporeon,Leafeon,Charmander,Squirtle,
+    Bulbasaur,Quilava,Meowth,Poliwhirl,Meganium,Cyndaquil,Blastoise,Septile]
+    Player1 = Trainer()
+    Player2 = Trainer()
     
     print("Welcome to Pokemon The North Edition")
 
@@ -54,13 +68,49 @@ while player_input == 1:
 
     print("Here are your Pokemon: ")
     time.sleep(1)
-    print("1: ", Flareon.name)
-    print("2: ", Eevee.name)
-    print("3: ", Vaporeon.name)
-    print("4: ", Leafeon.name)
-    print("5: ", Charmander.name)
-    print("6: ", Squirtle.name)
-    print("7: ", Bulbasaur.name)
+    for i, poke in enumerate(pokelist):
+        print(f"{i+1}: ", poke.name)
+    player_selection = [[],[]]
+    for i in range(6):
+            not_picked = True
+            while not_picked or choice >= 15 or choice <= 0:
+                try:
+                    choice = int(input(f'Player1 pick Pokemon number {i+1} for your belt:'))
+                    for list in player_selection:
+                        for element in list:
+                            if choice == element:
+                                print("Please pick another pokemon")
+                                continue
+                    not_picked = False
+                except (ValueError,TypeError):
+                    print("Please enter a number!")
+                    continue
+                if choice >= 15 or choice <= 0:
+                     print("Please pick a number from 1 - 14!")
+            player_selection[0][i] = choice
+            not_picked = True
+            while not_picked or not_picked or choice >= 15 or choice <= 0:
+                try:
+                    choice = int(input(f'Player2 pick Pokemon number {i+1} for your belt:'))
+                    for list in player_selection:
+                        for element in list:
+                            if choice == element:
+                                print("Please pick another pokemon")
+                                continue
+                    not_picked = False
+                except (ValueError,TypeError):
+                    print("Please enter a number!")
+                    continue
+                if choice >= 15 or choice <= 0:
+                     print("Please pick a number from 1 - 14!")
+            player_selection[1][i] = choice
+            
+           
+            
+
+    # for pok
+    #     Player1.throw_pokeball(pokelist[choice])
+    #     Player2.throw_pokeball(pokelist[choice]) 
 
     pokemon_selected = 0
     pokemon1 = 0
@@ -69,7 +119,7 @@ while player_input == 1:
     first_go2 = True
     while pokemon_selected == 0 or pokemon1 <= 0 or pokemon1 >= 8:
         try:
-            pokemon1 = int(input("Player 1 please choose your pokemon (type 1 - 7): "))
+            pokemon1 = int(input("Player 1 please choose your pokemon (type 1 - 14): "))
             pokemon_selected = 1
             
         except (ValueError,TypeError):
@@ -77,13 +127,13 @@ while player_input == 1:
             continue
 
         if pokemon2 <= 0 or pokemon2 >= 8:
-             print("Please pick a number from 1-7!")
+             print("Please pick a number from 1 - 14!")
         
     print(f"You have selected: {pokelist[pokemon1 - 1].name}")
     
     while pokemon_selected == 0 or pokemon2 <= 0 or pokemon2 >= 8 or pokemon2 == pokemon1:
         try:
-            pokemon2 = int(input("Player 2 choose your pokemon (type 1 - 7): "))
+            pokemon2 = int(input("Player 2 choose your pokemon (type 1 - 14): "))
         except (ValueError,TypeError):
                 print("Please enter a number!")
                 continue
@@ -92,7 +142,7 @@ while player_input == 1:
                 print("Please pick another pokemon")
 
         if pokemon2 <= 0 or pokemon2 >= 8:
-             print("Please pick a number from 1-7:")
+             print("Please pick a number from 1 - 14:")
 
             
     print(f"You have selected: {pokelist[pokemon2 - 1].name}")
@@ -101,9 +151,10 @@ while player_input == 1:
 
     pokemon2 = pokelist[pokemon2 - 1]
 
-    time.sleep(1)
-
+    time.sleep(2)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("The battle will now commence !!!!!!")
+    
 
     game_battle = Battle(pokemon1, pokemon2)
 
@@ -136,6 +187,7 @@ while player_input == 1:
         time.sleep(2)
     except (TypeError,ValueError):
         break
+    os.system('cls' if os.name == 'nt' else 'clear')
     
 
 

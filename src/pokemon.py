@@ -1,3 +1,4 @@
+import random
 class Pokemon:
     def __init__(self, name, hitpoints, attackdamage, move):
         self.name = name
@@ -17,13 +18,23 @@ class Pokemon:
             return True
         return False
     
-    def get_multiplier(self,other_pokemon):
+    def get_multiplier(self,other_pokemon): 
+        def critical_hit():
+            dice_roll = random.randint(1,6)
+            if dice_roll == 6:
+                return True
+            return False
+        critical = critical_hit()
+        if critical:
+            print(f"{self.name} got CRITICAL HIT!!!")
+            return 3
         if self.strong_against is other_pokemon.type:
             return 1.5
         if self.weak_against is other_pokemon.type:
             return 0.5
         return 1
     
+   
     
     
 class Fire(Pokemon):
