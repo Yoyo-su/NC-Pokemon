@@ -45,8 +45,15 @@ while player_input == 1:
     Charmander = Fire('Charmander', 44, 17, 'Flamethrower')
     Squirtle = Water('Squirtle', 44, 16, 'Surf')
     Bulbasaur = Grass('Bulbasaur', 45, 16,'Razor leaf')
-
-    pokelist = [Flareon, Eevee, Vaporeon, Leafeon, Charmander, Squirtle, Bulbasaur]
+    Quilava = Fire('Quilava', 58, 22, 'Eruption')
+    Meowth = Normal('Meowth', 48, 15, 'Growl')
+    Poliwhirl = Water('Poliwhirl', 65, 20, 'Hydro vortex')
+    Meganium = Grass('Meganium', 80, 28, 'G-Max drum solo')
+    Cyndaquil  = Fire('Cyndaquil', 46, 16, 'Flame charge')
+    Blastoise = Water('Blastoise', 79, 30, 'Wave crash')
+    Septile = Grass('Septile', 70, 25,'Apple acid')
+    pokelist = [Flareon,Eevee,Vaporeon,Leafeon,Charmander,Squirtle,
+    Bulbasaur,Quilava,Meowth,Poliwhirl,Meganium,Cyndaquil,Blastoise,Septile]
     
     print("Welcome to Pokemon The North Edition")
 
@@ -54,36 +61,31 @@ while player_input == 1:
 
     print("Here are your Pokemon: ")
     time.sleep(1)
-    print("1: ", Flareon.name)
-    print("2: ", Eevee.name)
-    print("3: ", Vaporeon.name)
-    print("4: ", Leafeon.name)
-    print("5: ", Charmander.name)
-    print("6: ", Squirtle.name)
-    print("7: ", Bulbasaur.name)
+    for i, poke in enumerate(pokelist):
+        print(f"{i+1}: ", poke.name)
 
     pokemon_selected = 0
     pokemon1 = 0
     pokemon2 = 0
     first_go1 = True
     first_go2 = True
-    while pokemon_selected == 0 or pokemon1 <= 0 or pokemon1 >= 8:
+    while pokemon_selected == 0 or pokemon1 <= 0 or pokemon1 >= 15:
         try:
-            pokemon1 = int(input("Player 1 please choose your pokemon (type 1 - 7): "))
+            pokemon1 = int(input("Player 1 please choose your pokemon (type 1 - 14): "))
             pokemon_selected = 1
             
         except (ValueError,TypeError):
             print("Please enter a number!")
             continue
 
-        if pokemon2 <= 0 or pokemon2 >= 8:
-             print("Please pick a number from 1-7!")
+        if pokemon2 <= 0 or pokemon2 >= 15:
+             print("Please pick a number from 1-14!")
         
     print(f"You have selected: {pokelist[pokemon1 - 1].name}")
     
-    while pokemon_selected == 0 or pokemon2 <= 0 or pokemon2 >= 8 or pokemon2 == pokemon1:
+    while pokemon_selected == 0 or pokemon2 <= 0 or pokemon2 >= 15 or pokemon2 == pokemon1:
         try:
-            pokemon2 = int(input("Player 2 choose your pokemon (type 1 - 7): "))
+            pokemon2 = int(input("Player 2 choose your pokemon (type 1 - 14): "))
         except (ValueError,TypeError):
                 print("Please enter a number!")
                 continue
@@ -91,8 +93,8 @@ while player_input == 1:
         if pokemon2 == pokemon1:
                 print("Please pick another pokemon")
 
-        if pokemon2 <= 0 or pokemon2 >= 8:
-             print("Please pick a number from 1-7:")
+        if pokemon2 <= 0 or pokemon2 >= 15:
+             print("Please pick a number from 1-14:")
 
             
     print(f"You have selected: {pokelist[pokemon2 - 1].name}")
@@ -136,6 +138,7 @@ while player_input == 1:
         time.sleep(2)
     except (TypeError,ValueError):
         break
+    os.system('cls' if os.name == 'nt' else 'clear')
     
 
 
