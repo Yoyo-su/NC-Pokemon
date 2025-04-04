@@ -31,6 +31,7 @@ Restart
 
 '''
 import time
+import os
 from pokemon import * 
 
 player_input = 1
@@ -61,15 +62,39 @@ while player_input == 1:
     print("6: ", Squirtle.name)
     print("7: ", Bulbasaur.name)
 
-    pokemon1 = int(input("Player 1 please choose your pokemon (type 1 - 7): "))
+    pokemon_selected = 0
+    pokemon1 = 0
+    pokemon2 = 0
+    first_go1 = True
+    first_go2 = True
+    while pokemon_selected == 0 or pokemon1 <= 0 or pokemon1 >= 8:
+        try:
+            pokemon1 = int(input("Player 1 please choose your pokemon (type 1 - 7): "))
+            pokemon_selected = 1
+            
+        except (ValueError,TypeError):
+            print("Please enter a number!")
+            continue
+
+        if pokemon2 <= 0 or pokemon2 >= 8:
+             print("Please pick a number from 1-7!")
+        
     print(f"You have selected: {pokelist[pokemon1 - 1].name}")
+    
+    while pokemon_selected == 0 or pokemon2 <= 0 or pokemon2 >= 8 or pokemon2 == pokemon1:
+        try:
+            pokemon2 = int(input("Player 2 choose your pokemon (type 1 - 7): "))
+        except (ValueError,TypeError):
+                print("Please enter a number!")
+                continue
 
-    pokemon2 = int(input("Player 2 choose your pokemon (type 1 - 7): "))
+        if pokemon2 == pokemon1:
+                print("Please pick another pokemon")
 
-    while pokemon2 == pokemon1:
-        print("please pick another pokemon")
-        pokemon2 = int(input("Player 2 choose your pokemon: "))
+        if pokemon2 <= 0 or pokemon2 >= 8:
+             print("Please pick a number from 1-7:")
 
+            
     print(f"You have selected: {pokelist[pokemon2 - 1].name}")
 
     pokemon1 = pokelist[pokemon1 - 1]
@@ -106,11 +131,17 @@ while player_input == 1:
     time.sleep(2)
     print(f"{game_battle.get_winner().name} wins !!!!!!")
     time.sleep(2)
+    try:
+        player_input = int(input("Enter 1 to restart or anything else to exit: "))
+        time.sleep(2)
+    except (TypeError,ValueError):
+        break
+    
 
-    player_input = int(input("Enter 1 to restart or anything else to exit: "))
-    time.sleep(2)
 
 print("GAME OVER")
+time.sleep(3)
+os.system('cls' if os.name == 'nt' else 'clear')
 
 
 
