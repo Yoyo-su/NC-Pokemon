@@ -42,7 +42,7 @@ Each method is tested individually using TDD in the test/test_pokemon.py file.
 ## 📁 File Structure
 
 ```
-DE-POKEMON
+NC-POKEMON
 ├── src
 │   ├── game.py             # Main application file for the Pokemon battle game
 │   └── pokemon.py          # Contains the class objects for Pokemon, Pokeball, Trainer, and Battle
