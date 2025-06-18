@@ -1,7 +1,8 @@
 import pytest
 from src.pokemon import *
 
-#### TESTS ####
+"""Test Suite for the Pokemon Classes and methods"""
+
 class TestPoke:
     @pytest.mark.it('should create a pokemon with the given attributes')
     def test_pokemon_creates_a_pokemon(self):

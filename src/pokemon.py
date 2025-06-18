@@ -1,5 +1,12 @@
 import random
+
+
+"""This is the base class for all Pokemon. The Pokemon class also has methods 
+to use a move, take damage, check if it has fainted, and get the multiplier for 
+damage based on the type of the Pokemon.
+"""
 class Pokemon:
+    
     def __init__(self, name, hitpoints, attackdamage, move):
         self.name = name
         self.hit_points = hitpoints
@@ -36,7 +43,7 @@ class Pokemon:
     
    
     
-    
+"""The following classes inherit from the Pokemon class and represent different types of Pokemon"""
 class Fire(Pokemon):
     def __init__(self, name, hitpoints, attackdamage, move):
         super().__init__(name, hitpoints, attackdamage, move)
@@ -67,6 +74,7 @@ class Normal(Pokemon):
         self.weak_against = None
     pass
 
+"""The Pokeball class represents a Pokeball that can catch a Pokemon"""
 class Pokeball:
     def __init__(self):
         self.pokemon = None
@@ -80,6 +88,7 @@ class Pokeball:
             return True
         return False
 
+"""The Trainer class represents a Pokemon Trainer who can throw Pokeballs to catch Pokemon"""
 class Trainer:
     def __init__(self):
         self.ball1 = Pokeball()
@@ -96,6 +105,8 @@ class Trainer:
                 pokeball.catch(pokemon)
                 break
 
+"""The Battle class represents a battle between two Pokemon, managing turns and 
+determining the winner."""
 class Battle:
     def __init__(self, pokemon1, pokemon2):
         self.pokemon1 = pokemon1
@@ -123,9 +134,5 @@ class Battle:
 
         return None
      
-# test_trainer = Trainer()
-# Flareon = Fire('Flareon', 65, 20, 'Fire blast')
-# test_trainer.throw_pokeball(Flareon)
-# print(Flareon)
-
-#test = Fire()
+     
+     
